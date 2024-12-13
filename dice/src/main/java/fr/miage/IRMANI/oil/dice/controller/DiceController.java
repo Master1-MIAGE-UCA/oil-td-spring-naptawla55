@@ -1,6 +1,9 @@
 package fr.miage.IRMANI.oil.dice.controller;
 
 import fr.miage.IRMANI.oil.dice.Dice;
+import fr.miage.IRMANI.oil.dice.entity.DiceRolling;
+import fr.miage.IRMANI.oil.dice.repository.DiceRollLogRepository;
+import fr.miage.IRMANI.oil.dice.service.DiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,23 +15,27 @@ import java.util.List;
 @RestController
 public class DiceController {
     private final Dice dice;
+    private final DiceRollLogRepository diceRollLogRepository;
+    private final DiceService diceService;
 
     @Autowired
-    public DiceController(Dice dice) {
+    public DiceController(Dice dice, DiceService diceService, DiceRollLogRepository diceRollLogRepository) {
         this.dice = dice;
+        this.diceService = diceService;
+        this.diceRollLogRepository = diceRollLogRepository;
     }
 
     @GetMapping("/rollDice")
-    public int rollDice() {
-        return dice.roll();
+    public List<Integer>  rollDice() {
+        return diceService.rollAndLog(1);
     }
 
     @GetMapping("/rollDices/{count}")
     public List<Integer> rollMultipleDices(@PathVariable("count") int count) {
-        List<Integer> results = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            results.add(dice.roll());
-        }
-        return results;
+        return diceService.rollAndLog(count);
+    }
+    @GetMapping("/diceLogs")
+    public List<DiceRolling> getAllLogs() {
+        return diceRollLogRepository.findAll();
     }
 }

@@ -1,9 +1,13 @@
 package fr.miage.IRMANI.oil.dice.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
-
+@Entity
+@Getter @Setter
 public class DiceRolling {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,36 +28,4 @@ public class DiceRolling {
         this.timestamp = timestamp;
     }
 
-    // Getters et Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getDiceCount() {
-        return diceCount;
-    }
-
-    public void setDiceCount(int diceCount) {
-        this.diceCount = diceCount;
-    }
-
-    public String getResults() {
-        return results;
-    }
-
-    public void setResults(String results) {
-        this.results = results;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
 }
